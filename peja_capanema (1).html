@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PEJA Capanema – Escrevendo, Transformo o Mundo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:wght@400;500&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>
+    :root {
+      --ink: #1a1209;
+      --cream: #fdf6e3;
+      --paper: #f5ead0;
+      --sepia: #8b5e3c;
+      --gold: #c9922a;
+      --rust: #b84c2b;
+      --sage: #5a7a5e;
+      --light-line: rgba(139, 94, 60, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Lined-paper background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px,
+          transparent 31px,
+          var(--light-line) 32px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 80px 24px 60px;
+      text-align: center;
+      border-bottom: 2px solid var(--sepia);
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: .85rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--sepia);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .hero-subtitle {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      color: var(--sepia);
+      max-width: 520px;
+      margin: 14px auto 0;
+      line-height: 1.7;
+    }
+
+    .hero-rule {
+      width: 56px;
+      height: 3px;
+      background: var(--gold);
+      margin: 28px auto 0;
+      border: none;
+    }
+
+    /* ── Cards grid ── */
+    .gallery-section {
+      position: relative;
+      z-index: 1;
+      padding: 64px 20px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: .78rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--sepia);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 36px;
+    }
+
+    /* ── Individual card ── */
+    .aluna-card {
+      position: relative;
+      background: var(--paper);
+      border: 1px solid rgba(139,94,60,.25);
+      border-radius: 4px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 3px 3px 0 rgba(139,94,60,.12);
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+
+    .aluna-card:hover {
+      transform: translateY(-6px) rotate(-0.4deg);
+      box-shadow: 6px 10px 0 rgba(139,94,60,.18);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* top coloured tab */
+    .aluna-card::before {
+      content: '';
+      display: block;
+      height: 4px;
+      width: 100%;
+      background: var(--gold);
+    }
+
+    .aluna-card:nth-child(2)::before { background: var(--rust); }
+    .aluna-card:nth-child(3)::before { background: var(--sage); }
+    .aluna-card:nth-child(4)::before { background: var(--sepia); }
+    .aluna-card:nth-child(5)::before { background: var(--gold); }
+    .aluna-card:nth-child(6)::before { background: var(--rust); }
+    .aluna-card:nth-child(7)::before { background: var(--sage); }
+
+    .card-photo-wrap {
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+    }
+
+    .card-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      filter: sepia(10%) contrast(1.04);
+      transition: transform .4s ease, filter .4s ease;
+    }
+
+    .aluna-card:hover .card-photo-wrap img {
+      transform: scale(1.04);
+      filter: sepia(0%) contrast(1.08);
+    }
+
+    .card-body-custom {
+      padding: 18px 20px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .card-cta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem;
+      font-weight: 400;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sepia);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      transition: color .2s;
+    }
+
+    .aluna-card:hover .card-cta {
+      color: var(--rust);
+    }
+
+    .card-cta .arrow {
+      font-size: 1rem;
+      transition: transform .2s;
+    }
+
+    .aluna-card:hover .card-cta .arrow {
+      transform: translateX(4px);
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(139,94,60,.3);
+      padding: 32px 20px;
+      text-align: center;
+      font-family: 'Lora', serif;
+      font-size: .85rem;
+      color: var(--sepia);
+    }
+
+    .site-footer strong {
+      color: var(--ink);
+    }
+
+    /* ── Scroll-reveal ── */
+    .card-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .card-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">PEJA Capanema · Rio de Janeiro</p>
+    <h1 class="hero-title">Escrevendo,<br><em>transformo o mundo</em></h1>
+    <p class="hero-subtitle">
+      Conheça as histórias das alunas que, através da escrita e da educação, reescrevem suas próprias vidas.
+    </p>
+    <hr class="hero-rule">
+  </header>
+
+  <!-- GALLERY -->
+  <main class="gallery-section">
+    <p class="section-label">Clique em uma aluna para ler sua história</p>
+
+    <div class="cards-grid">
+
+      <!-- Maria Eliane -->
+      <a href="https://pejacapanema.github.io/MariaEliane2026/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Foto_MariaEliane__1_.jpg" alt="Foto de Maria Eliane">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Maria Eliane</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <!-- Jaqueline -->
+      <a href="https://pejacapanema.github.io/JaquelineLacerda2026/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Jaqueline.jpg" alt="Foto de Jaqueline">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Jaqueline Lacerda</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <!-- Marinalva -->
+      <a href="https://pejacapanema.github.io/MarinalvaSoares2026/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Marinalva.jpg" alt="Foto de Marinalva">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Marinalva Soares</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <!-- Severina -->
+      <a href="https://pejacapanema.github.io/Severina2026/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Severina.jpg" alt="Foto de Severina">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Severina</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <!-- Doralice -->
+      <a href="https://pejacapanema.github.io/Doralice2026/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Doralice.jpg" alt="Foto de Doralice">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Doralice</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <!-- Karen -->
+      <a href="https://pejacapanema.github.io/Karen2026/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Karen.jpg" alt="Foto de Karen">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Karen</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <!-- Sara Vitória -->
+      <a href="https://pejacapanema.github.io/SaraVitoria/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Sara.jpg" alt="Foto de Sara Vitória">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Sara Vitória</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+      <!-- Maria Selma -->
+      <a href="https://pejacapanema.github.io/MariaSelma2026/" class="aluna-card card-reveal" target="_blank" rel="noopener">
+        <div class="card-photo-wrap">
+          <img src="Maria_Selma.jpg" alt="Foto de Maria Selma">
+        </div>
+        <div class="card-body-custom">
+          <p class="card-name">Maria Selma</p>
+          <span class="card-cta">Ler história <span class="arrow">→</span></span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <strong>PEJA Capanema</strong> · Prefeitura do Rio de Janeiro<br>
+    Projeto <em>"Escrevendo, transformo o mundo"</em> · 2026
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Scroll-reveal with stagger
+    const cards = document.querySelectorAll('.card-reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 90);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+</body>
+</html>
